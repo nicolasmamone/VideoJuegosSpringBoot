@@ -52,36 +52,15 @@
                     </p>
                     <p th:text="${juego.descripcion}" class="card-text"></p>
                 </div>
+                <!-- SESSION EDIT -->
                 <div th:if="${session.edit}" class="card-footer text-muted text-center">
                     <a th:href="@{/videojuegos/editar(id=${juego.id})}" class="btn btn-success">Editar</a>
-                    <a th:href="@{/videojuegos/eliminar(id=${juego.id})}" class="btn btn-danger  ">Eliminar</a>
-
-                    <!-- Modal -->
-
-                    <!--<div class="modal fade" id="EliminarVideojuegoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Eliminar Videojuego</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    Seguro desea eliminar Videojuego?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                    <a th:href="@{/videojuegos/eliminar(id=${1})}" class="btn btn-danger" >Eliminar</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button type="button" class="btn btn-primary eliminar" data-toggle="modal" data-target="#EliminarVideojuegoModal" th:id="${juego.id}">Eliminar</button>
--->
-<!--                    <a th:href="@{/videojuegos/eliminar(id=${juego.id})}" class="btn btn-danger" >Eliminar</a>-->
+                    <!-- <a th:href="@{/videojuegos/eliminar(id=${juego.id})}" onclick="return confirm('Seguro desea Eliminar?')" class="btn btn-danger  ">Eliminar</a>-->
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#staticBackdrop"
+                            th:attr="data-ref=@{/videojuegos/eliminar(id=${juego.id})}"
+                            onclick="enviar(this.getAttribute('data-ref'))">Eliminar</button>
                 </div>
+                <!-- SESSION USER -->
                 <div th:if="${!session.edit}" class="card-footer text-muted text-center">
                     <a th:href="${juego.distribuidor.sitioWeb}" class="btn btn-success">Comprar</a>
                 </div>
@@ -91,10 +70,37 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Seguro desea Eliminar Videojuego?
+            </div>
+            <div class="modal-footer">
+                <a href="" id="modal-delete" type="button" class="btn btn-outline-danger"
+                   onclick="alert('Se ha eliminado correctamente')">Aceptar</a>
+                <button type="button" class="btn btn-outline-success" data-dismiss="modal">Cancelar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 
-
-
+<script>
+    function enviar(ref) {
+        document.querySelector('#modal-delete').setAttribute('href', ref)
+        console.log(ref);
+    }
+</script>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
